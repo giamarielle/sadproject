@@ -7,8 +7,8 @@ public class MyConnection {
      
         Connection con = null;
         try {
-            Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
-            con = DriverManager.getConnection("jdbc:derby://localhost:1527/QMS","konsulta","resulta");
+            Class.forName("com.mysql.jdbc.Driver");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sad_db","root","mypass");
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
