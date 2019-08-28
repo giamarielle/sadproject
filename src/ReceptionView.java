@@ -125,11 +125,11 @@ public class ReceptionView extends javax.swing.JFrame {
         ReceptionPanel.setBackground(new java.awt.Color(197, 239, 247));
 
         KRLogo.setFont(new java.awt.Font("Sitka Small", 0, 36)); // NOI18N
-        KRLogo.setIcon(new javax.swing.ImageIcon("C:\\Users\\reyes.jenneth\\Documents\\Gia\\5TH YEAR\\KRLogo.png")); // NOI18N
         KRLogo.setIconTextGap(0);
 
-        QTabbedPane.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        QTabbedPane.setFont(new java.awt.Font("Poppins", 0, 28)); // NOI18N
+        QTabbedPane.setBorder(javax.swing.BorderFactory.createLineBorder(null));
+        QTabbedPane.setFocusable(false);
+        QTabbedPane.setFont(new java.awt.Font("Montserrat Light", 0, 24)); // NOI18N
 
         jTablePedia.setAutoCreateRowSorter(true);
         jTablePedia.setFont(new java.awt.Font("Poppins", 0, 18)); // NOI18N
@@ -641,7 +641,7 @@ public class ReceptionView extends javax.swing.JFrame {
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(QTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 513, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 35, Short.MAX_VALUE))
+                .addGap(0, 41, Short.MAX_VALUE))
         );
 
         getContentPane().add(ReceptionPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 0, 930, 760));

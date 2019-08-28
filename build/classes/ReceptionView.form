@@ -84,7 +84,7 @@
                   <Component id="jLabel1" min="-2" pref="52" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="QTabbedPane" min="-2" pref="513" max="-2" attributes="0"/>
-                  <EmptySpace min="0" pref="35" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="41" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -94,9 +94,6 @@
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Sitka Small" size="36" style="0"/>
-            </Property>
-            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="2" name="C:\Users\reyes.jenneth\Documents\Gia\5TH YEAR\KRLogo.png"/>
             </Property>
             <Property name="iconTextGap" type="int" value="0"/>
           </Properties>
@@ -108,8 +105,9 @@
                 <LineBorder/>
               </Border>
             </Property>
+            <Property name="focusable" type="boolean" value="false"/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Poppins" size="28" style="0"/>
+              <Font name="Montserrat Light" size="24" style="0"/>
             </Property>
           </Properties>
 
