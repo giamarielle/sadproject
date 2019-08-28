@@ -4,7 +4,6 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -30,9 +29,9 @@ public class AddQueue extends javax.swing.JFrame {
     }
 
     public static String getId() {
-        Random rnd = new Random();
-        int number = rnd.nextInt(999999);
-        return String.format("%06d", number);
+        int number = 2;
+        String padded = String.format("%06d", number);
+        return padded;
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -43,7 +42,7 @@ public class AddQueue extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        buttonGroup1 = new javax.swing.ButtonGroup();
+        GenderBGroup = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         PatientIDTextField = new javax.swing.JTextField();
@@ -146,6 +145,7 @@ public class AddQueue extends javax.swing.JFrame {
         jLabel7.setText("Gender:");
 
         MButton.setBackground(new java.awt.Color(228, 241, 254));
+        GenderBGroup.add(MButton);
         MButton.setFont(new java.awt.Font("Proxima Nova Rg", 0, 20)); // NOI18N
         MButton.setText("Male");
         MButton.addActionListener(new java.awt.event.ActionListener() {
@@ -155,6 +155,7 @@ public class AddQueue extends javax.swing.JFrame {
         });
 
         FButton.setBackground(new java.awt.Color(228, 241, 254));
+        GenderBGroup.add(FButton);
         FButton.setFont(new java.awt.Font("Proxima Nova Rg", 0, 20)); // NOI18N
         FButton.setText("Female");
         FButton.addActionListener(new java.awt.event.ActionListener() {
@@ -194,14 +195,15 @@ public class AddQueue extends javax.swing.JFrame {
         jLabel10.setText("Services:");
 
         jLabelAssignID.setFont(new java.awt.Font("Proxima Nova Rg", 0, 26)); // NOI18N
-        jLabelAssignID.setForeground(new java.awt.Color(255, 255, 255));
         jLabelAssignID.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelAssignID.setText(" ");
 
         jSeparator2.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
         jTextFieldAddress.setColumns(20);
+        jTextFieldAddress.setFont(new java.awt.Font("Proxima Nova Rg", 0, 18)); // NOI18N
         jTextFieldAddress.setRows(5);
+        jTextFieldAddress.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -214,26 +216,27 @@ public class AddQueue extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(57, 57, 57)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(jLabel10)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(SpecComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(jLabel2)
-                                        .addGap(49, 49, 49)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(PatientIDTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(123, 123, 123)
                                 .addComponent(jLabel1)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 70, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(154, 154, 154)
-                        .addComponent(HomeButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(SubmitQButton)
-                        .addGap(188, 188, 188)))
+                        .addContainerGap(153, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(SubmitQButton)
+                                .addGap(188, 188, 188))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(HomeButton)
+                                .addGap(146, 146, 146)))))
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -254,16 +257,17 @@ public class AddQueue extends javax.swing.JFrame {
                                     .addComponent(jLabel7))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(MButton)
-                                        .addGap(51, 51, 51)
-                                        .addComponent(FButton))
                                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                         .addComponent(jTextFieldLname, javax.swing.GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE)
                                         .addComponent(jTextFieldMname)
                                         .addComponent(jTextFieldFname))
-                                    .addComponent(jTextFieldAge, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTextFieldAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                    .addComponent(jTextFieldAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                            .addComponent(jTextFieldAge, javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(MButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addGap(51, 51, 51)
+                                        .addComponent(FButton))))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(107, 107, 107)
                         .addComponent(jLabel3)))
@@ -293,8 +297,8 @@ public class AddQueue extends javax.swing.JFrame {
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(28, 28, 28)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(PatientIDTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(PatientIDTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2))
                         .addGap(33, 33, 33)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel10)
@@ -329,7 +333,7 @@ public class AddQueue extends javax.swing.JFrame {
                             .addComponent(RegPatientButton)
                             .addComponent(ClearField)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(16, 16, 16)
+                        .addGap(18, 18, 18)
                         .addComponent(HomeButton)))
                 .addGap(40, 40, 40))
             .addComponent(jSeparator2)
@@ -389,7 +393,7 @@ public class AddQueue extends javax.swing.JFrame {
             
             if (MButton.isSelected())
                 gender = "Male";
-            if (FButton.isSelected())
+            else if (FButton.isSelected())
                 gender = "Female";
             ps.setString(7, gender);
             
@@ -419,8 +423,7 @@ public class AddQueue extends javax.swing.JFrame {
         jTextFieldAddress.setText("");
         jTextFieldAge.setText("");
         jLabelAssignID.setText(" ");
-        MButton.setSelected(false);
-        FButton.setSelected(false);
+        GenderBGroup.clearSelection();
     }//GEN-LAST:event_ClearFieldActionPerformed
 
     private void SpecComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SpecComboBoxActionPerformed
@@ -465,13 +468,13 @@ public class AddQueue extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ClearField;
     private javax.swing.JRadioButton FButton;
+    private javax.swing.ButtonGroup GenderBGroup;
     private javax.swing.JButton HomeButton;
     private javax.swing.JRadioButton MButton;
     private javax.swing.JTextField PatientIDTextField;
     private javax.swing.JButton RegPatientButton;
     private javax.swing.JComboBox<String> SpecComboBox;
     private javax.swing.JButton SubmitQButton;
-    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
