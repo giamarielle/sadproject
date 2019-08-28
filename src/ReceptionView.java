@@ -121,12 +121,13 @@ public class ReceptionView extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        ReceptionPanel.setBackground(new java.awt.Color(197, 239, 247));
+        ReceptionPanel.setBackground(new java.awt.Color(228, 241, 254));
 
         KRLogo.setFont(new java.awt.Font("Sitka Small", 0, 36)); // NOI18N
+        KRLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/faves/KRlogo.png"))); // NOI18N
         KRLogo.setIconTextGap(0);
 
-        QTabbedPane.setBorder(javax.swing.BorderFactory.createLineBorder(null));
+        QTabbedPane.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         QTabbedPane.setFocusable(false);
         QTabbedPane.setFont(new java.awt.Font("Montserrat Light", 0, 24)); // NOI18N
 
@@ -643,7 +644,7 @@ public class ReceptionView extends javax.swing.JFrame {
                 .addGap(0, 41, Short.MAX_VALUE))
         );
 
-        SidePanel.setBackground(new java.awt.Color(1, 50, 67));
+        SidePanel.setBackground(new java.awt.Color(26, 44, 63));
 
         AddQButton.setBackground(new java.awt.Color(194, 225, 228));
         AddQButton.setFont(new java.awt.Font("Proxima Nova Rg", 0, 32)); // NOI18N

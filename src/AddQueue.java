@@ -23,13 +23,13 @@ public class AddQueue extends javax.swing.JFrame {
     /**
      * Creates new form AddQueue
      */
-    
+    static int number = 0;
     public AddQueue() {
         initComponents();
     }
 
     public static String getId() {
-        int number = 2;
+        number += 1;
         String padded = String.format("%06d", number);
         return padded;
     }
