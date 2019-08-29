@@ -90,11 +90,9 @@ public class DoctorView extends javax.swing.JFrame {
     
     public void holdPatients(){
         patient_id_hold.add(patient_id.get(0));
+        OnHoldText.append(patient_id.get(0) + "\n");
         patient_id.remove(0);
-        for(String a : patient_id_hold){
-           OnHoldText.append(a + "\n");
         removeData();
-}
     }
     /**
      * This method is called from within the constructor to initialize the form.
