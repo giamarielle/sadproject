@@ -197,8 +197,9 @@ public class DoctorView extends javax.swing.JFrame {
 
         OnHoldText.setEditable(false);
         OnHoldText.setColumns(20);
+        OnHoldText.setFont(new java.awt.Font("Proxima Nova Rg", 0, 18)); // NOI18N
         OnHoldText.setLineWrap(true);
-        OnHoldText.setRows(5);
+        OnHoldText.setRows(3);
         jScrollPane1.setViewportView(OnHoldText);
 
         ReleaseButton.setBackground(java.awt.Color.lightGray);
