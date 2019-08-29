@@ -28,10 +28,10 @@ public class ViewPatients extends javax.swing.JFrame {
      */
     public ViewPatients() {
         initComponents();
-        showpatient();
+        //showpatient();
         update_table();
     }
-    
+    /*
     public ArrayList<patient> patientList(){
         ArrayList<patient> patientsList = new ArrayList<>();
         try{
@@ -64,7 +64,7 @@ public class ViewPatients extends javax.swing.JFrame {
             row[6]=list.get(i).getage();
             model.addRow(row);
         }
-    }
+    }*/
     
     private void update_table(){
         Connection con = null;
