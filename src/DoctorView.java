@@ -29,16 +29,13 @@ public class DoctorView extends javax.swing.JFrame {
         this.service = service;
         jLabelService.setText(service);
         getDBData();
-<<<<<<< HEAD
-       
-=======
         if(patient_id.size()>0){
             if(patient_id.get(0)!=null)
                 CurrentTextField.setText(patient_id.get(0));
             if(patient_id.get(1)!=null)
                 NextTextField.setText(patient_id.get(1));
         }
->>>>>>> 500e86618ebfa25294e8b5ff3d9adef61511f454
+
     }
     
     public void getDBData(){
@@ -337,25 +334,22 @@ public class DoctorView extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_HoldButtonActionPerformed
 
-<<<<<<< HEAD
+
     private void ChangeUser4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ChangeUser4ActionPerformed
         removeData();
         getDBData();
     }//GEN-LAST:event_ChangeUser4ActionPerformed
-=======
+
     private void CallNextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CallNextButtonActionPerformed
         getDBData();
         
     }//GEN-LAST:event_CallNextButtonActionPerformed
->>>>>>> 500e86618ebfa25294e8b5ff3d9adef61511f454
 
-    private void CurrentTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CurrentTextFieldActionPerformed
+
+    private void CurrentTextFieldActionPerformed(java.awt.event.ActionEvent evt) {                                                 
         // TODO add your handling code here:
-<<<<<<< HEAD
-    }//GEN-LAST:event_jTextField1ActionPerformed
-=======
-    }//GEN-LAST:event_CurrentTextFieldActionPerformed
->>>>>>> 500e86618ebfa25294e8b5ff3d9adef61511f454
+    }                                          
+    }                                                
 
     /**
      * @param args the command line arguments
