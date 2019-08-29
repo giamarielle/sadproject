@@ -168,7 +168,7 @@ public class flashscreen extends javax.swing.JFrame {
             rv.setLocationRelativeTo(null);
             rv.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         } else {
-            DoctorView dv = new DoctorView();
+            DoctorView dv = new DoctorView(user);
             dv.setVisible(true);
             dv.pack();
             dv.setLocationRelativeTo(null);

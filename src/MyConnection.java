@@ -7,7 +7,7 @@ public class MyConnection {
      
         Connection con = null;
         try {
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sad_db","root","mypass");
         } catch (Exception ex) {
             System.out.println(ex.getMessage());

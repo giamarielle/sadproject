@@ -14,12 +14,17 @@ import java.sql.SQLException;
  *
  * @author Kyle Lainez
  */
-public class Scan_DB {
+public class Get_Queue {
+    public String service;
+    public String firstname,midname,lastname,address,gender;
     
-    public static void main(String[] args) throws SQLException {
-        String search_id = null;
-        String query = "SELECT patient_id,firstname,midname,lastname,address,age,gender FROM patients";
-        String firstname,midname,lastname,address,gender;
+    public void setService(String service){
+        this.service = service;
+    }
+    
+    public void Get_Queue(String service_input) throws SQLException {
+        String query;
+        query = "SELECT * FROM queue WHERE service = '"+service+"'";
         int age;
         
         try{
@@ -41,6 +46,4 @@ public class Scan_DB {
             System.out.println("Scan_DB Error: " + ex);
         }
     }
-    
-   
 }

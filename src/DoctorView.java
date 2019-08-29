@@ -1,3 +1,11 @@
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -9,14 +17,43 @@
  * @author reyes.jenneth
  */
 public class DoctorView extends javax.swing.JFrame {
-
+    public String service;
+    public List<String> patient_id = new ArrayList<>();
     /**
      * Creates new form DoctorView
      */
-    public DoctorView() {
+    public DoctorView(String service) {
         initComponents();
+        this.service = service;
+        jLabelService.setText(service);
+        getDBData();
+        if(patient_id.size()>0){
+            if(patient_id.get(0)!=null)
+                jTextField1.setText(patient_id.get(0));
+            if(patient_id.get(1)!=null)
+                jTextField4.setText(patient_id.get(1));
+        }
     }
-
+    
+    public void getDBData(){
+        String query = "SELECT * FROM queue";
+        try{
+            Connection con = MyConnection.getConnection();
+            PreparedStatement ps = con.prepareStatement(query);
+            
+            ResultSet rs = ps.executeQuery();
+            
+            while(rs.next()){
+                if(rs.getString("service").equals(service))
+                    if(!patient_id.contains(rs.getString("patient_id")))
+                        patient_id.add(rs.getString("patient_id"));
+            }
+            
+        }catch (Exception ex){
+            System.out.println("Scan_DB Error: " + ex);
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -35,12 +72,13 @@ public class DoctorView extends javax.swing.JFrame {
         jTextArea1 = new javax.swing.JTextArea();
         jTextField4 = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jLabelDate = new javax.swing.JLabel();
+        jLabelService = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jTextField5 = new javax.swing.JTextField();
         ChangeUser3 = new javax.swing.JButton();
         ChangeUser4 = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -69,9 +107,18 @@ public class DoctorView extends javax.swing.JFrame {
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("ON HOLD");
 
+        jTextField1.setEditable(false);
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
+
+        jTextArea1.setEditable(false);
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
 
+        jTextField4.setEditable(false);
         jTextField4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField4ActionPerformed(evt);
@@ -82,10 +129,11 @@ public class DoctorView extends javax.swing.JFrame {
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("PATIENT INFO");
 
-        jLabelDate.setFont(new java.awt.Font("Poppins Medium", 0, 40)); // NOI18N
-        jLabelDate.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabelDate.setText("PEDIATRICIAN");
+        jLabelService.setFont(new java.awt.Font("Poppins Medium", 0, 40)); // NOI18N
+        jLabelService.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabelService.setText("PEDIATRICIAN");
 
+        jTextField5.setEditable(false);
         jTextField5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField5ActionPerformed(evt);
@@ -112,6 +160,13 @@ public class DoctorView extends javax.swing.JFrame {
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/faves/KRlogo.png"))); // NOI18N
 
+        jButton1.setText("Update");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout ReceptionPanelLayout = new javax.swing.GroupLayout(ReceptionPanel);
         ReceptionPanel.setLayout(ReceptionPanelLayout);
         ReceptionPanelLayout.setHorizontalGroup(
@@ -124,10 +179,16 @@ public class DoctorView extends javax.swing.JFrame {
                     .addGroup(ReceptionPanelLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel5)
-                        .addGap(96, 96, 96)
-                        .addGroup(ReceptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabelDate, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(ChangeUser)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(ReceptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(ReceptionPanelLayout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addGroup(ReceptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabelService, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(ChangeUser)))
+                            .addGroup(ReceptionPanelLayout.createSequentialGroup()
+                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(ReceptionPanelLayout.createSequentialGroup()
                         .addGroup(ReceptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(ReceptionPanelLayout.createSequentialGroup()
@@ -148,28 +209,36 @@ public class DoctorView extends javax.swing.JFrame {
                                 .addComponent(ChangeUser3))
                             .addGroup(ReceptionPanelLayout.createSequentialGroup()
                                 .addGap(181, 181, 181)
-                                .addComponent(ChangeUser4))))
+                                .addComponent(ChangeUser4))
+                            .addGroup(ReceptionPanelLayout.createSequentialGroup()
+                                .addGap(212, 212, 212)
+                                .addComponent(jLabel4))))
                     .addGroup(ReceptionPanelLayout.createSequentialGroup()
                         .addGap(106, 106, 106)
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(129, 129, 129)
-                        .addGroup(ReceptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 345, Short.MAX_VALUE)
-                            .addComponent(jTextArea1))))
+                        .addComponent(jTextArea1, javax.swing.GroupLayout.PREFERRED_SIZE, 363, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         ReceptionPanelLayout.setVerticalGroup(
             ReceptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ReceptionPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(ReceptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(ReceptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(ReceptionPanelLayout.createSequentialGroup()
-                        .addComponent(jLabelDate)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(ChangeUser))
-                    .addComponent(jLabel5))
-                .addGap(20, 20, 20)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(ReceptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(ReceptionPanelLayout.createSequentialGroup()
+                                .addComponent(jLabel5)
+                                .addGap(50, 50, 50))
+                            .addGroup(ReceptionPanelLayout.createSequentialGroup()
+                                .addComponent(jLabelService)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(ChangeUser)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(ReceptionPanelLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(36, 36, 36)
                 .addGroup(ReceptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(ReceptionPanelLayout.createSequentialGroup()
@@ -192,7 +261,7 @@ public class DoctorView extends javax.swing.JFrame {
                         .addComponent(ChangeUser3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(ChangeUser4)
-                        .addGap(0, 19, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(45, 45, 45))
         );
 
@@ -226,6 +295,14 @@ public class DoctorView extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_ChangeUser4ActionPerformed
 
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        getDBData();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -256,7 +333,7 @@ public class DoctorView extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new DoctorView().setVisible(true);
+                new DoctorView("Test").setVisible(true);
             }
         });
     }
@@ -266,12 +343,13 @@ public class DoctorView extends javax.swing.JFrame {
     private javax.swing.JButton ChangeUser3;
     private javax.swing.JButton ChangeUser4;
     private javax.swing.JPanel ReceptionPanel;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabelDate;
+    private javax.swing.JLabel jLabelService;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField jTextField1;

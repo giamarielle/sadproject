@@ -34,7 +34,7 @@ public class ReceptionView extends javax.swing.JFrame {
     public ArrayList<patient> patientList(){
         ArrayList<patient> patientsList = new ArrayList<>();
         try{
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sad_db","root","mypass");
             String query = "SELECT * FROM patients";
             Statement st = con.createStatement();
