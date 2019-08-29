@@ -47,10 +47,6 @@ public class ReceptionView extends javax.swing.JFrame {
         }
         return patientsList;
     }
-<<<<<<< HEAD
-=======
-
->>>>>>> bfd6b46fb52898d28aed9ee5ba6873b1063f9e8f
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
