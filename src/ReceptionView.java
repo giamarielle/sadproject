@@ -28,42 +28,9 @@ public class ReceptionView extends javax.swing.JFrame {
     public ReceptionView() {
         initComponents();
         date(); day();
-        showpatient();
     }
 
-    public ArrayList<patient> patientList(){
-        ArrayList<patient> patientsList = new ArrayList<>();
-        try{
-            Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
-            Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/QMS","konsulta","resulta");
-            String query = "SELECT * FROM patients";
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(query);
-            patient Patient;
-            while(rs.next()){
-                Patient = new patient(rs.getInt("patient_ID"),rs.getString("firstname"),rs.getString("midname"),rs.getString("lastname"),rs.getString("address"),rs.getString("gender"),rs.getInt("age"));
-            }
-        }catch (ClassNotFoundException | SQLException e){
-            JOptionPane.showMessageDialog(null, e);
-        }
-        return patientsList;
-    }
     
-    public void showpatient(){
-        ArrayList<patient> list = patientList();
-        DefaultTableModel model = (DefaultTableModel) jTablePedia.getModel();
-        Object[] row = new Object[7];
-        for(int i=0; i<list.size(); i++){
-            row[0]=list.get(i).getpatient_id();
-            row[1]=list.get(i).getfirstname();
-            row[2]=list.get(i).getmidname();
-            row[3]=list.get(i).getlastname();
-            row[4]=list.get(i).getaddress();
-            row[5]=list.get(i).getgender();
-            row[6]=list.get(i).getage();
-            model.addRow(row);
-        }
-    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -754,7 +721,12 @@ public class ReceptionView extends javax.swing.JFrame {
     }//GEN-LAST:event_AddQButtonActionPerformed
 
     private void PatientsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PatientsButtonActionPerformed
-        // TODO add your handling code here:
+        ViewPatients vp = new ViewPatients();
+        vp.setVisible(true);
+        vp.pack();
+        vp.setLocationRelativeTo(null);
+        //rv.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.dispose();
     }//GEN-LAST:event_PatientsButtonActionPerformed
 
     private void HistoryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HistoryButtonActionPerformed
