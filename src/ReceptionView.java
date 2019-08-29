@@ -30,7 +30,6 @@ public class ReceptionView extends javax.swing.JFrame {
         date(); day();
     }
 
-<<<<<<< HEAD
     public ArrayList<patient> patientList(){
         ArrayList<patient> patientsList = new ArrayList<>();
         try{
@@ -48,8 +47,6 @@ public class ReceptionView extends javax.swing.JFrame {
         }
         return patientsList;
     }
-=======
->>>>>>> 7d17aab6d5704f23d66a2a16181ee6f8ceed01c2
     
     /**
      * This method is called from within the constructor to initialize the form.

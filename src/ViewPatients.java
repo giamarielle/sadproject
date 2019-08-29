@@ -1,12 +1,15 @@
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import net.proteanit.sql.DbUtils;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -26,6 +29,7 @@ public class ViewPatients extends javax.swing.JFrame {
     public ViewPatients() {
         initComponents();
         showpatient();
+        update_table();
     }
     
     public ArrayList<patient> patientList(){
@@ -61,6 +65,22 @@ public class ViewPatients extends javax.swing.JFrame {
             model.addRow(row);
         }
     }
+    
+    private void update_table(){
+        Connection con = null;
+        ResultSet rs = null;
+        PreparedStatement ps = null;
+        try{
+            String sql = "Select * from patients";
+            con = MyConnection.getConnection();
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+            ViewAllPatients.setModel(DbUtils.resultSetToTableModel(rs));
+            
+        }catch (Exception e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -76,7 +96,8 @@ public class ViewPatients extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         ViewAllPatients = new javax.swing.JTable();
         HomeButton = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
+        RefreshDButton = new javax.swing.JLabel();
+        HomeButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -126,9 +147,24 @@ public class ViewPatients extends javax.swing.JFrame {
         HomeButton.setFont(new java.awt.Font("Proxima Nova Rg", 1, 20)); // NOI18N
         HomeButton.setForeground(new java.awt.Color(255, 255, 255));
         HomeButton.setText("BACK TO HOME");
+        HomeButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                HomeButtonActionPerformed(evt);
+            }
+        });
 
-        jLabel1.setFont(new java.awt.Font("Proxima Nova Rg", 0, 48)); // NOI18N
-        jLabel1.setText("View Patients");
+        RefreshDButton.setFont(new java.awt.Font("Proxima Nova Rg", 0, 48)); // NOI18N
+        RefreshDButton.setText("View Patients");
+
+        HomeButton1.setBackground(new java.awt.Color(27, 163, 156));
+        HomeButton1.setFont(new java.awt.Font("Proxima Nova Rg", 1, 20)); // NOI18N
+        HomeButton1.setForeground(new java.awt.Color(255, 255, 255));
+        HomeButton1.setText("REFRESH");
+        HomeButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                HomeButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -140,9 +176,12 @@ public class ViewPatients extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(KRLogo)
                         .addGap(393, 393, 393)
-                        .addComponent(jLabel1))
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(HomeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(RefreshDButton))
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addComponent(HomeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(HomeButton1))
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1052, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(93, 93, Short.MAX_VALUE))
         );
@@ -155,11 +194,13 @@ public class ViewPatients extends javax.swing.JFrame {
                         .addComponent(KRLogo))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(42, 42, 42)
-                        .addComponent(jLabel1)))
-                .addGap(77, 77, 77)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 520, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(RefreshDButton)))
+                .addGap(105, 105, 105)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 492, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
-                .addComponent(HomeButton)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(HomeButton)
+                    .addComponent(HomeButton1))
                 .addGap(44, 44, 44))
         );
 
@@ -176,6 +217,19 @@ public class ViewPatients extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void HomeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HomeButtonActionPerformed
+        ReceptionView rv = new ReceptionView();
+        rv.setVisible(true);
+        rv.pack();
+        rv.setLocationRelativeTo(null);
+        rv.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.dispose();
+    }//GEN-LAST:event_HomeButtonActionPerformed
+
+    private void HomeButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HomeButton1ActionPerformed
+       update_table();
+    }//GEN-LAST:event_HomeButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -214,9 +268,10 @@ public class ViewPatients extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton HomeButton;
+    private javax.swing.JButton HomeButton1;
     private javax.swing.JLabel KRLogo;
+    private javax.swing.JLabel RefreshDButton;
     private javax.swing.JTable ViewAllPatients;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables

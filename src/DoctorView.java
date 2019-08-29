@@ -1,5 +1,6 @@
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -29,16 +30,19 @@ public class DoctorView extends javax.swing.JFrame {
         getDBData();
         if(patient_id.size()>0){
             if(patient_id.get(0)!=null)
-                jTextField1.setText(patient_id.get(0));
+                CurrentTextField.setText(patient_id.get(0));
             if(patient_id.get(1)!=null)
-                jTextField4.setText(patient_id.get(1));
+                NextTextField.setText(patient_id.get(1));
         }
     }
     
     public void getDBData(){
         String query = "SELECT * FROM queue";
         try{
-            Connection con = MyConnection.getConnection();
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://192.168.100.117:3306/sad_db", "ARWEN","MYPASS");
+            //Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+            //Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/QMS","konsulta","resulta");
             PreparedStatement ps = con.prepareStatement(query);
             
             ResultSet rs = ps.executeQuery();
@@ -68,17 +72,17 @@ public class DoctorView extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextArea1 = new javax.swing.JTextArea();
-        jTextField4 = new javax.swing.JTextField();
+        CurrentTextField = new javax.swing.JTextField();
+        PatientInfo = new javax.swing.JTextArea();
+        NextTextField = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jLabelService = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
-        jTextField5 = new javax.swing.JTextField();
-        ChangeUser3 = new javax.swing.JButton();
-        ChangeUser4 = new javax.swing.JButton();
+        HoldButton = new javax.swing.JButton();
+        CallNextButton = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        OnHoldText = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -107,21 +111,26 @@ public class DoctorView extends javax.swing.JFrame {
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("ON HOLD");
 
-        jTextField1.setEditable(false);
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        CurrentTextField.setEditable(false);
+        CurrentTextField.setFont(new java.awt.Font("Proxima Nova Rg", 0, 24)); // NOI18N
+        CurrentTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                CurrentTextFieldActionPerformed(evt);
             }
         });
 
-        jTextArea1.setEditable(false);
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
+        PatientInfo.setEditable(false);
+        PatientInfo.setColumns(20);
+        PatientInfo.setFont(new java.awt.Font("Proxima Nova Rg", 0, 22)); // NOI18N
+        PatientInfo.setRows(5);
+        PatientInfo.setText("Patient ID:\t000005\nFirst Name: \tGia Marielle\nMiddle Name: \tCayetano\nLast Name: \tReyes\nAddress: \tPasig City\nGender: \tFemale\nAge: \t20\n");
+        PatientInfo.setMargin(new java.awt.Insets(10, 10, 10, 10));
 
-        jTextField4.setEditable(false);
-        jTextField4.addActionListener(new java.awt.event.ActionListener() {
+        NextTextField.setEditable(false);
+        NextTextField.setFont(new java.awt.Font("Proxima Nova Rg", 0, 24)); // NOI18N
+        NextTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField4ActionPerformed(evt);
+                NextTextFieldActionPerformed(evt);
             }
         });
 
@@ -133,39 +142,31 @@ public class DoctorView extends javax.swing.JFrame {
         jLabelService.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabelService.setText("PEDIATRICIAN");
 
-        jTextField5.setEditable(false);
-        jTextField5.addActionListener(new java.awt.event.ActionListener() {
+        HoldButton.setBackground(java.awt.Color.lightGray);
+        HoldButton.setFont(new java.awt.Font("Proxima Nova Rg", 1, 22)); // NOI18N
+        HoldButton.setText("HOLD PATIENT");
+        HoldButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField5ActionPerformed(evt);
+                HoldButtonActionPerformed(evt);
             }
         });
 
-        ChangeUser3.setBackground(java.awt.Color.lightGray);
-        ChangeUser3.setFont(new java.awt.Font("Proxima Nova Rg", 1, 22)); // NOI18N
-        ChangeUser3.setText("HOLD PATIENT");
-        ChangeUser3.addActionListener(new java.awt.event.ActionListener() {
+        CallNextButton.setBackground(java.awt.Color.lightGray);
+        CallNextButton.setFont(new java.awt.Font("Proxima Nova Rg", 1, 22)); // NOI18N
+        CallNextButton.setText("CALL NEXT PATIENT");
+        CallNextButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ChangeUser3ActionPerformed(evt);
-            }
-        });
-
-        ChangeUser4.setBackground(java.awt.Color.lightGray);
-        ChangeUser4.setFont(new java.awt.Font("Proxima Nova Rg", 1, 22)); // NOI18N
-        ChangeUser4.setText("CALL NEXT PATIENT");
-        ChangeUser4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ChangeUser4ActionPerformed(evt);
+                CallNextButtonActionPerformed(evt);
             }
         });
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/faves/KRlogo.png"))); // NOI18N
 
-        jButton1.setText("Update");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
+        OnHoldText.setEditable(false);
+        OnHoldText.setColumns(20);
+        OnHoldText.setLineWrap(true);
+        OnHoldText.setRows(5);
+        jScrollPane1.setViewportView(OnHoldText);
 
         javax.swing.GroupLayout ReceptionPanelLayout = new javax.swing.GroupLayout(ReceptionPanel);
         ReceptionPanel.setLayout(ReceptionPanelLayout);
@@ -179,90 +180,76 @@ public class DoctorView extends javax.swing.JFrame {
                     .addGroup(ReceptionPanelLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(ReceptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(ReceptionPanelLayout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addGroup(ReceptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabelService, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(ChangeUser)))
-                            .addGroup(ReceptionPanelLayout.createSequentialGroup()
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))))
+                        .addGap(94, 94, 94)
+                        .addGroup(ReceptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabelService, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(ChangeUser)))
                     .addGroup(ReceptionPanelLayout.createSequentialGroup()
                         .addGroup(ReceptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(ReceptionPanelLayout.createSequentialGroup()
                                 .addGap(106, 106, 106)
                                 .addGroup(ReceptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(CurrentTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ReceptionPanelLayout.createSequentialGroup()
                                 .addContainerGap()
                                 .addGroup(ReceptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ReceptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jTextField5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGroup(ReceptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(ReceptionPanelLayout.createSequentialGroup()
-                                .addGap(211, 211, 211)
-                                .addComponent(ChangeUser3))
-                            .addGroup(ReceptionPanelLayout.createSequentialGroup()
-                                .addGap(181, 181, 181)
-                                .addComponent(ChangeUser4))
-                            .addGroup(ReceptionPanelLayout.createSequentialGroup()
-                                .addGap(212, 212, 212)
-                                .addComponent(jLabel4))))
+                                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(NextTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(212, 212, 212)
+                        .addComponent(jLabel4))
                     .addGroup(ReceptionPanelLayout.createSequentialGroup()
                         .addGap(106, 106, 106)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(129, 129, 129)
-                        .addComponent(jTextArea1, javax.swing.GroupLayout.PREFERRED_SIZE, 363, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(ReceptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(ReceptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(ReceptionPanelLayout.createSequentialGroup()
+                                .addGap(129, 129, 129)
+                                .addComponent(PatientInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 363, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(ReceptionPanelLayout.createSequentialGroup()
+                                .addGap(177, 177, 177)
+                                .addComponent(CallNextButton))
+                            .addGroup(ReceptionPanelLayout.createSequentialGroup()
+                                .addGap(207, 207, 207)
+                                .addComponent(HoldButton)))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         ReceptionPanelLayout.setVerticalGroup(
             ReceptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ReceptionPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(ReceptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(ReceptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel5)
                     .addGroup(ReceptionPanelLayout.createSequentialGroup()
-                        .addGroup(ReceptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(ReceptionPanelLayout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addGap(50, 50, 50))
-                            .addGroup(ReceptionPanelLayout.createSequentialGroup()
-                                .addComponent(jLabelService)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(ChangeUser)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(ReceptionPanelLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jLabelService)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(ChangeUser)))
+                .addGap(23, 23, 23)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(36, 36, 36)
                 .addGroup(ReceptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(ReceptionPanelLayout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(PatientInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(41, 41, 41)
+                        .addComponent(HoldButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(CallNextButton))
+                    .addGroup(ReceptionPanelLayout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(CurrentTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(35, 35, 35)
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(NextTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(36, 36, 36)
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField5))
-                    .addGroup(ReceptionPanelLayout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextArea1, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(41, 41, 41)
-                        .addComponent(ChangeUser3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(ChangeUser4)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addGap(45, 45, 45))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(45, 61, Short.MAX_VALUE))
         );
 
         getContentPane().add(ReceptionPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 960, 670));
@@ -270,9 +257,9 @@ public class DoctorView extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
+    private void NextTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NextTextFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField4ActionPerformed
+    }//GEN-LAST:event_NextTextFieldActionPerformed
 
     private void ChangeUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ChangeUserActionPerformed
         flashscreen fs = new flashscreen();
@@ -283,25 +270,18 @@ public class DoctorView extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_ChangeUserActionPerformed
 
-    private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
+    private void HoldButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HoldButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField5ActionPerformed
+    }//GEN-LAST:event_HoldButtonActionPerformed
 
-    private void ChangeUser3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ChangeUser3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ChangeUser3ActionPerformed
-
-    private void ChangeUser4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ChangeUser4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ChangeUser4ActionPerformed
-
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void CallNextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CallNextButtonActionPerformed
         getDBData();
-    }//GEN-LAST:event_jButton1ActionPerformed
+        
+    }//GEN-LAST:event_CallNextButtonActionPerformed
+
+    private void CurrentTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CurrentTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CurrentTextFieldActionPerformed
 
     /**
      * @param args the command line arguments
@@ -339,21 +319,21 @@ public class DoctorView extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton CallNextButton;
     private javax.swing.JButton ChangeUser;
-    private javax.swing.JButton ChangeUser3;
-    private javax.swing.JButton ChangeUser4;
+    private javax.swing.JTextField CurrentTextField;
+    private javax.swing.JButton HoldButton;
+    private javax.swing.JTextField NextTextField;
+    private javax.swing.JTextArea OnHoldText;
+    private javax.swing.JTextArea PatientInfo;
     private javax.swing.JPanel ReceptionPanel;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabelService;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
     // End of variables declaration//GEN-END:variables
 }
