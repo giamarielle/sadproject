@@ -3,6 +3,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,12 +28,7 @@ public class DoctorView extends javax.swing.JFrame {
         this.service = service;
         jLabelService.setText(service);
         getDBData();
-        if(patient_id.size()>0){
-            if(patient_id.get(0)!=null)
-                jTextField1.setText(patient_id.get(0));
-            if(patient_id.get(1)!=null)
-                jTextField4.setText(patient_id.get(1));
-        }
+       
     }
     
     public void getDBData(){
@@ -52,8 +48,32 @@ public class DoctorView extends javax.swing.JFrame {
         }catch (Exception ex){
             System.out.println("Scan_DB Error: " + ex);
         }
+        
+         if(patient_id.size()>0){
+            if(patient_id.get(0)!=null)
+                jTextField1.setText(patient_id.get(0));
+            if(patient_id.size()>1){
+                if(patient_id.get(1)!=null)
+                   jTextField4.setText(patient_id.get(1));
+            }
+        }else{
+             jTextField1.setText("");
+             jTextField4.setText("");
+         }
     }
-    
+    public void removeData(){
+        String query = "delete from queue WHERE patient_id="+patient_id.get(0);
+        try{
+            Connection con = MyConnection.getConnection();
+            Statement ps = con.createStatement();
+            ps.executeUpdate(query);
+            
+        }catch (Exception ex){
+            System.out.println("Scan_DB Error: " + ex);
+        }
+        patient_id.remove(0);
+        getDBData();
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -78,7 +98,6 @@ public class DoctorView extends javax.swing.JFrame {
         ChangeUser3 = new javax.swing.JButton();
         ChangeUser4 = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -160,13 +179,6 @@ public class DoctorView extends javax.swing.JFrame {
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/faves/KRlogo.png"))); // NOI18N
 
-        jButton1.setText("Update");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout ReceptionPanelLayout = new javax.swing.GroupLayout(ReceptionPanel);
         ReceptionPanel.setLayout(ReceptionPanelLayout);
         ReceptionPanelLayout.setHorizontalGroup(
@@ -175,20 +187,19 @@ public class DoctorView extends javax.swing.JFrame {
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 1285, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(ReceptionPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel5)
                 .addGroup(ReceptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(ReceptionPanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(ReceptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(ReceptionPanelLayout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addGroup(ReceptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabelService, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(ChangeUser)))
-                            .addGroup(ReceptionPanelLayout.createSequentialGroup()
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(ChangeUser)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(ReceptionPanelLayout.createSequentialGroup()
+                        .addGap(119, 119, 119)
+                        .addComponent(jLabelService, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+            .addGroup(ReceptionPanelLayout.createSequentialGroup()
+                .addGroup(ReceptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(ReceptionPanelLayout.createSequentialGroup()
                         .addGroup(ReceptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(ReceptionPanelLayout.createSequentialGroup()
@@ -223,22 +234,18 @@ public class DoctorView extends javax.swing.JFrame {
         ReceptionPanelLayout.setVerticalGroup(
             ReceptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ReceptionPanelLayout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(ReceptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(ReceptionPanelLayout.createSequentialGroup()
-                        .addGroup(ReceptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(ReceptionPanelLayout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addGap(50, 50, 50))
-                            .addGroup(ReceptionPanelLayout.createSequentialGroup()
-                                .addComponent(jLabelService)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(ChangeUser)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(ReceptionPanelLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ReceptionPanelLayout.createSequentialGroup()
+                        .addGap(22, 22, 22)
+                        .addComponent(jLabelService)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(ChangeUser)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ReceptionPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel5)
+                        .addGap(50, 50, 50)))
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(36, 36, 36)
                 .addGroup(ReceptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(ReceptionPanelLayout.createSequentialGroup()
@@ -292,16 +299,13 @@ public class DoctorView extends javax.swing.JFrame {
     }//GEN-LAST:event_ChangeUser3ActionPerformed
 
     private void ChangeUser4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ChangeUser4ActionPerformed
-        // TODO add your handling code here:
+        removeData();
+        getDBData();
     }//GEN-LAST:event_ChangeUser4ActionPerformed
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1ActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        getDBData();
-    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -343,7 +347,6 @@ public class DoctorView extends javax.swing.JFrame {
     private javax.swing.JButton ChangeUser3;
     private javax.swing.JButton ChangeUser4;
     private javax.swing.JPanel ReceptionPanel;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
