@@ -1,7 +1,10 @@
 
+import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.logging.Level;
@@ -23,13 +26,13 @@ public class AddQueue extends javax.swing.JFrame {
     /**
      * Creates new form AddQueue
      */
-    
+    static int number = 0;
     public AddQueue() {
         initComponents();
     }
 
     public static String getId() {
-        int number = 2;
+        number += 1;
         String padded = String.format("%06d", number);
         return padded;
     }
@@ -69,6 +72,7 @@ public class AddQueue extends javax.swing.JFrame {
         jLabelAssignID = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
         jTextFieldAddress = new javax.swing.JTextArea();
+        jLabelConfirm = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -205,6 +209,10 @@ public class AddQueue extends javax.swing.JFrame {
         jTextFieldAddress.setRows(5);
         jTextFieldAddress.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
 
+        jLabelConfirm.setFont(new java.awt.Font("Proxima Nova Rg", 0, 20)); // NOI18N
+        jLabelConfirm.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabelConfirm.setText(" ");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -236,7 +244,11 @@ public class AddQueue extends javax.swing.JFrame {
                                 .addGap(188, 188, 188))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                 .addComponent(HomeButton)
-                                .addGap(146, 146, 146)))))
+                                .addGap(146, 146, 146))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(57, 57, 57)
+                        .addComponent(jLabelConfirm, javax.swing.GroupLayout.PREFERRED_SIZE, 385, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -303,7 +315,7 @@ public class AddQueue extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel10)
                             .addComponent(SpecComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -323,7 +335,9 @@ public class AddQueue extends javax.swing.JFrame {
                             .addComponent(jTextFieldAge, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addComponent(jLabelAssignID))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(84, 84, 84)
+                        .addComponent(jLabelConfirm, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(SubmitQButton)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -359,7 +373,38 @@ public class AddQueue extends javax.swing.JFrame {
 
     private void SubmitQButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SubmitQButtonActionPerformed
         String pid = PatientIDTextField.getText();
-        //if (pid == patient_id)
+        String query = "SELECT * FROM patients WHERE patient_id = '"+pid+"'";
+        String firstname = null,lastname = null, id = null;
+        
+        try{
+            Connection con = MyConnection.getConnection();
+            PreparedStatement ps = con.prepareStatement(query);
+            
+            ResultSet rs = ps.executeQuery();
+            
+            while(rs.next()){
+                firstname = rs.getString("firstname");
+                lastname = rs.getString("lastname");
+                id = rs.getString("patient_id");
+            }
+            
+            if (pid.equals(id)){
+                String service = SpecComboBox.getSelectedItem().toString();
+                String addQ = "INSERT INTO queue(patient_id,service) VALUES(?,?)";
+                ps = MyConnection.getConnection().prepareStatement(addQ);
+                ps.setString(1, pid);
+                ps.setString(2, service);
+                if(ps.executeUpdate() > 0){
+                    PatientIDTextField.setText("");
+                    JOptionPane.showMessageDialog(null,firstname+" "+lastname+"\nhas been added to queue");
+                }
+            } else 
+                JOptionPane.showMessageDialog(null,"Patient ID not found!");
+            
+        }catch (Exception ex){
+            System.out.println("Scan_DB Error: " + ex);
+        }
+               
     }//GEN-LAST:event_SubmitQButtonActionPerformed
 
     private void HomeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HomeButtonActionPerformed
@@ -377,25 +422,27 @@ public class AddQueue extends javax.swing.JFrame {
         String lname = jTextFieldLname.getText();
         String address = jTextFieldAddress.getText();
         int age = Integer.parseInt(jTextFieldAge.getText());
-        int patient_id = Integer.parseInt(getId());
+        //LocalDate date = java.time.LocalDate.now();
+        String patient_id = getId();
         String gender = null;
         PreparedStatement ps;
-        String query = "INSERT INTO patients(patient_id,firstname,midname,lastname,address,age,gender) VALUES (?,?,?,?,?,?,?)";
+        String query = "INSERT INTO patients(patient_id,firstname,midname,lastname,address,gender,age) VALUES (?,?,?,?,?,?,?)";
         
         try {
             ps = MyConnection.getConnection().prepareStatement(query);
-            ps.setInt(1, patient_id);
+            ps.setString(1, patient_id);
             ps.setString(2, fname);
             ps.setString(3, mname);
             ps.setString(4, lname);
             ps.setString(5, address);
-            ps.setInt(6, age);
             
             if (MButton.isSelected())
                 gender = "Male";
             else if (FButton.isSelected())
                 gender = "Female";
-            ps.setString(7, gender);
+            ps.setString(6, gender);
+            ps.setInt(7, age);
+            //ps.setDate(8,date);
             
             if(ps.executeUpdate() > 0)
             {
@@ -486,6 +533,7 @@ public class AddQueue extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel jLabelAssignID;
+    private javax.swing.JLabel jLabelConfirm;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JTextArea jTextFieldAddress;

@@ -28,9 +28,9 @@ public class ReceptionView extends javax.swing.JFrame {
     public ReceptionView() {
         initComponents();
         date(); day();
-        showpatient();
     }
 
+<<<<<<< HEAD
     public ArrayList<patient> patientList(){
         ArrayList<patient> patientsList = new ArrayList<>();
         try{
@@ -48,22 +48,9 @@ public class ReceptionView extends javax.swing.JFrame {
         }
         return patientsList;
     }
+=======
+>>>>>>> 7d17aab6d5704f23d66a2a16181ee6f8ceed01c2
     
-    public void showpatient(){
-        ArrayList<patient> list = patientList();
-        DefaultTableModel model = (DefaultTableModel) jTablePedia.getModel();
-        Object[] row = new Object[7];
-        for(int i=0; i<list.size(); i++){
-            row[0]=list.get(i).getpatient_id();
-            row[1]=list.get(i).getfirstname();
-            row[2]=list.get(i).getmidname();
-            row[3]=list.get(i).getlastname();
-            row[4]=list.get(i).getaddress();
-            row[5]=list.get(i).getgender();
-            row[6]=list.get(i).getage();
-            model.addRow(row);
-        }
-    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -121,12 +108,13 @@ public class ReceptionView extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        ReceptionPanel.setBackground(new java.awt.Color(197, 239, 247));
+        ReceptionPanel.setBackground(new java.awt.Color(228, 241, 254));
 
         KRLogo.setFont(new java.awt.Font("Sitka Small", 0, 36)); // NOI18N
+        KRLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/faves/KRlogo.png"))); // NOI18N
         KRLogo.setIconTextGap(0);
 
-        QTabbedPane.setBorder(javax.swing.BorderFactory.createLineBorder(null));
+        QTabbedPane.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         QTabbedPane.setFocusable(false);
         QTabbedPane.setFont(new java.awt.Font("Montserrat Light", 0, 24)); // NOI18N
 
@@ -643,7 +631,7 @@ public class ReceptionView extends javax.swing.JFrame {
                 .addGap(0, 41, Short.MAX_VALUE))
         );
 
-        SidePanel.setBackground(new java.awt.Color(1, 50, 67));
+        SidePanel.setBackground(new java.awt.Color(26, 44, 63));
 
         AddQButton.setBackground(new java.awt.Color(194, 225, 228));
         AddQButton.setFont(new java.awt.Font("Proxima Nova Rg", 0, 32)); // NOI18N
@@ -753,7 +741,12 @@ public class ReceptionView extends javax.swing.JFrame {
     }//GEN-LAST:event_AddQButtonActionPerformed
 
     private void PatientsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PatientsButtonActionPerformed
-        // TODO add your handling code here:
+        ViewPatients vp = new ViewPatients();
+        vp.setVisible(true);
+        vp.pack();
+        vp.setLocationRelativeTo(null);
+        //rv.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.dispose();
     }//GEN-LAST:event_PatientsButtonActionPerformed
 
     private void HistoryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HistoryButtonActionPerformed
